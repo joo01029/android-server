@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Table(indexes = {@Index(name = "i_correct", columnList = "user_idx, problem_idx")})
+@Table(indexes = {@Index(name = "i_correct", columnList = "user_idx, problem_id")})
 public class Correct {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
