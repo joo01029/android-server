@@ -9,15 +9,35 @@ import org.springframework.stereotype.Component;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtProvider {
 	@Value("${jwt.auth.access}")
 	String ACCESS_KEY;
 
-//	public String encodingToken(Integer idx){
-//		return Jwts.builder().
-//	}
+	public String encodingToken(Long idx){
+		try{
+			SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+			Key signingKey = makeKey();
+			Map<String, Object> claims = new HashMap<>();
+			claims.put("idx", idx);
+
+			return Jwts.builder()
+					.setClaims(claims)
+					.setIssuedAt(new Date(System.currentTimeMillis()))
+					.setExpiration(new Date(System.currentTimeMillis() + 30*24*60*60*1000))
+					.signWith(signatureAlgorithm,signingKey)
+					.compact();
+		}catch (CustomException e){
+			throw e;
+		}catch (Exception e){
+			e.printStackTrace();
+			throw new CustomException(HttpStatus.INTERNAL_SERVER_ERROR, "토큰 생성 에러");
+		}
+	}
 
 	private Key makeKey(){
 		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
