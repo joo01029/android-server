@@ -22,7 +22,6 @@ public class AuthController {
 
 	@PostMapping("/register")
 	public Response register(@Valid @RequestBody RegisterDto registerDto){
-		System.out.println("aa");
 		authService.register(registerDto);
 		return new Response();
 	}
