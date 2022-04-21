@@ -35,7 +35,6 @@ public class JwtFilter implements Filter {
 				Set<GrantedAuthority> roles = new HashSet<>();
 
 				if (null == token ) {
-					System.out.println("null");
 					request.setAttribute("idx", null);
 					roles.add( new SimpleGrantedAuthority("ROLE_"+ Role.UNAUTH.toString()));
 				}else{
@@ -43,7 +42,6 @@ public class JwtFilter implements Filter {
 					request.setAttribute("idx", claims.get("idx"));
 					roles.add( new SimpleGrantedAuthority("ROLE_"+Role.AUTH.toString()));
 				}
-				System.out.println("s");
 				SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(null, null, roles));
 			}
 			chain.doFilter(request,response);
