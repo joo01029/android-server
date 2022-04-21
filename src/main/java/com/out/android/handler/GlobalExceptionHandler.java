@@ -23,4 +23,11 @@ public class GlobalExceptionHandler {
 
 		return new ResponseEntity<Response>(response, HttpStatus.BAD_REQUEST);
 	}
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<Response> handleException(Exception e) {
+		e.printStackTrace();
+		Response response = new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), "서버에러");
+
+		return new ResponseEntity<Response>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }

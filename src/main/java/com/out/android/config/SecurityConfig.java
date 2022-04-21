@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -14,10 +15,10 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 @Configuration
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final HandlerExceptionResolver handlerExceptionResolver;
@@ -27,7 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity webSecurity){
 		webSecurity
 				.ignoring()
-				.antMatchers();
+
+				.antMatchers("/auth", "/auth/**");
 	}
 
 	@Override
@@ -53,9 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public CorsConfigurationSource corsConfig(){
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-		List<String> allowedOriginPatterns = new ArrayList<>();
-		allowedOriginPatterns.add("*");
-		corsConfiguration.setAllowedOriginPatterns(allowedOriginPatterns);
+		corsConfiguration.setAllowedOriginPatterns(Collections.singletonList("*"));
 		corsConfiguration.addAllowedHeader("*");
 		corsConfiguration.addAllowedMethod("*");
 		corsConfiguration.setAllowCredentials(true);
