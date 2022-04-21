@@ -28,8 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity webSecurity){
 		webSecurity
 				.ignoring()
-
-				.antMatchers("/auth", "/auth/**");
+				.antMatchers("/swagger-ui.html");
 	}
 
 	@Override
@@ -65,5 +64,3 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return source;
 	}
 }
-
-
