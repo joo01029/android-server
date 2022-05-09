@@ -1,6 +1,7 @@
 package com.out.android.domain.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -22,5 +23,6 @@ public class User {
 	private String name;
 
 	@Column(nullable = false)
-	private Integer score = 0;
+	@ColumnDefault("0")
+	private Integer score;
 }
