@@ -65,4 +65,34 @@ public class UserJpaTest {
 			assert (true);
 		}
 	}
+
+	@Test
+	public void getUserDataSuccessful(){
+		try{
+			User user = userRepo.findById("qwer").orElseGet(()->{
+				assert (false);
+				return null;
+			});
+			assert (user.getPassword().equals("qwer"));
+		}catch (Exception e){
+			e.printStackTrace();
+			assert (false);
+		}
+	}
+	@Test
+	public void getUserDataFail(){
+		try{
+			User user = userRepo.findById("asdf").orElse(
+				User.builder()
+					.id("asdf")
+					.password("asdf")
+					.name("asdf")
+					.build()
+			);
+			assert (user.getId().equals("asdf"));
+		}catch (Exception e){
+			e.printStackTrace();
+			assert (false);
+		}
+	}
 }
