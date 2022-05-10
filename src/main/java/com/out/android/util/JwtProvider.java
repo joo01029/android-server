@@ -27,8 +27,7 @@ public class JwtProvider {
 
 			return Jwts.builder()
 					.setClaims(claims)
-					.setIssuedAt(new Date(System.currentTimeMillis()))
-					.setExpiration(new Date(System.currentTimeMillis() + 30*24*60*60*1000))
+					.setExpiration(new Date(System.currentTimeMillis() + 30L *24*60*60*1000))
 					.signWith(signatureAlgorithm,signingKey)
 					.compact();
 		}catch (CustomException e){
@@ -59,8 +58,10 @@ public class JwtProvider {
 					.parseClaimsJws(token)
 					.getBody();
 		}catch (ExpiredJwtException e){
+			e.printStackTrace();
 			throw new CustomException(HttpStatus.GONE, "토큰 만료");
 		}catch (SignatureException | MalformedJwtException e){
+			e.printStackTrace();
 			throw new CustomException(HttpStatus.UNAUTHORIZED, "토큰 위조");
 		}catch (Exception e){
 			throw e;
