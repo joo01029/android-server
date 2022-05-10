@@ -5,6 +5,7 @@ import com.out.android.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -40,7 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.and()
 					.csrf().disable()
 					.authorizeRequests()
-					.antMatchers("/auth","/auth/**").permitAll();
+					.antMatchers("/auth","/auth/**").permitAll()
+					.antMatchers(HttpMethod.POST, "/problem").hasRole("AUTH");
 
 
 			JwtFilter jwtFilter = new JwtFilter(handlerExceptionResolver, jwtProvider);
