@@ -20,7 +20,7 @@ public class ProblemController {
 
 	@PostMapping
 	public Response makeProblem(@Valid @RequestBody MakeProblemDto makeProblemDto, HttpServletRequest request){
-		Long userIdx = (Long) request.getAttribute("idx");
+		Long userIdx = Long.valueOf(String.valueOf(request.getAttribute("idx")));
 		problemService.makeProblem(userIdx, makeProblemDto);
 		return new Response();
 	}
