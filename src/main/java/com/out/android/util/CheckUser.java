@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class AuthUser {
+public class CheckUser {
 	private final UserRepo userRepo;
 	public User getUser(Long idx){
 		return userRepo.findByIdx(idx)
