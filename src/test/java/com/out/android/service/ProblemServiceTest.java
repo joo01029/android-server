@@ -4,7 +4,7 @@ import com.out.android.domain.entity.User;
 import com.out.android.domain.repo.ProblemRepo;
 import com.out.android.domain.request.problem.MakeProblemDto;
 import com.out.android.service.problem.ProblemServiceImpl;
-import com.out.android.util.AuthUser;
+import com.out.android.util.UserUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +21,7 @@ public class ProblemServiceTest {
 	private ProblemServiceImpl problemService;
 
 	@Mock
-	private AuthUser authUser;
+	private UserUtil userUtil;
 
 	@Mock
 	private ProblemRepo problemRepo;
@@ -35,7 +35,7 @@ public class ProblemServiceTest {
 				.idx(1L)
 				.build();
 
-		Mockito.lenient().when(authUser.getUser(1L))
+		Mockito.lenient().when(userUtil.getUserByIdx(1L))
 				.thenReturn(user);
 		Mockito.lenient().when(problemRepo.save(any()))
 				.thenReturn(null);
