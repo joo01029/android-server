@@ -1,8 +1,8 @@
 package com.out.android.config.filter;
 
 import com.out.android.enums.Role;
-import com.out.android.util.CheckJwt;
 import com.out.android.util.JwtProvider;
+import com.out.android.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,7 +27,7 @@ public class JwtFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		try{
-			CheckJwtAdepter jwtAdepter = CheckJwt::extract;
+			JwtUtilAdepter jwtAdepter = JwtUtil::checkJwtType;
 
 			String token = jwtAdepter.checkJwt((HttpServletRequest) request, "Bearer");
 
@@ -53,6 +53,6 @@ public class JwtFilter implements Filter {
 }
 
 @FunctionalInterface
-interface CheckJwtAdepter{
+interface JwtUtilAdepter{
 	public String checkJwt(HttpServletRequest request,String token);
 }
