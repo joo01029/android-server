@@ -1,7 +1,7 @@
 package com.out.android.utilTest;
 
 import com.out.android.exception.CustomException;
-import com.out.android.util.CheckJwt;
+import com.out.android.util.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +24,7 @@ public class CheckJwtTest {
 	@Test
 	public void jwtCheckTest(){
 
-		String result = CheckJwt.extract(request, "Bearer");
+		String result = JwtUtil.checkJwtType(request, "Bearer");
 		assert(result.equals("aaa"));
 
 	}
@@ -32,7 +32,7 @@ public class CheckJwtTest {
 	@Test
 	public void jwtCheckFailTest(){
 		try {
-			String result = CheckJwt.extract(request, "Bearr");
+			String result = JwtUtil.checkJwtType(request, "Bearr");
 		}catch (CustomException e){
 			assert (e.getMessage().equals("잘못된 토큰"));
 		}
