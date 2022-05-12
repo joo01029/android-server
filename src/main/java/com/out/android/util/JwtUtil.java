@@ -5,12 +5,12 @@ import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;
 
-public final class CheckJwt {
+public final class JwtUtil {
 	private  static final String authorization = "Authorization";
 
-	private CheckJwt (){}
+	private JwtUtil (){}
 
-	public static String extract(HttpServletRequest request, String type){
+	public static String checkJwtType(HttpServletRequest request, String type){
 		String header = request.getHeader(authorization);
 		if(header != null){
 			if(header.toLowerCase().startsWith(type.toLowerCase())){
