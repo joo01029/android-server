@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CheckUser {
+public class UserUtil {
 	private final UserRepo userRepo;
-	public User getUser(Long idx){
+	public User getUserByIdx(Long idx){
 		return userRepo.findByIdx(idx)
 				.orElseThrow(
 						()->new CustomException(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다.")

@@ -3,7 +3,7 @@ package com.out.android.utilTest;
 import com.out.android.domain.entity.User;
 import com.out.android.domain.repo.UserRepo;
 import com.out.android.exception.CustomException;
-import com.out.android.util.CheckUser;
+import com.out.android.util.UserUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 public class CheckUserTest {
 	@InjectMocks
-	private CheckUser checkUser;
+	private UserUtil userUtil;
 
 	@Mock
 	private UserRepo userRepo;
@@ -40,7 +40,7 @@ public class CheckUserTest {
 	@Test
 	public void checkUserSuccessTest(){
 		try{
-			User user = checkUser.getUser(1L);
+			User user = userUtil.getUserByIdx(1L);
 			assert (user.getIdx() == 1);
 			assert (user.getName().equals("qwer"));
 		}catch (Exception e){
@@ -52,7 +52,7 @@ public class CheckUserTest {
 	@Test
 	public void checkUserFailTest(){
 		try{
-			User user = checkUser.getUser(2L);
+			User user = userUtil.getUserByIdx(2L);
 			assert (false);
 		}catch (CustomException e){
 			e.printStackTrace();
