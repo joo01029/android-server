@@ -42,8 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.csrf().disable()
 					.authorizeRequests()
 					.antMatchers("/auth","/auth/**").hasRole("UNAUTH")
-					.antMatchers(HttpMethod.POST, "/problem").hasRole("AUTH");
-
+					.antMatchers(HttpMethod.POST, "/problem").hasRole("AUTH")
+					.antMatchers(HttpMethod.GET, "/problem").permitAll();
 
 			JwtFilter jwtFilter = new JwtFilter(handlerExceptionResolver, jwtProvider);
 			httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
