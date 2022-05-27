@@ -11,11 +11,4 @@ import org.springframework.http.HttpStatus;
 public class CustomException extends RuntimeException {
 	private HttpStatus status;
 	private String message;
-
-	public CustomException(){
-		this.message = "success";
-		this.status = HttpStatus.OK;
-	}
-
-
 }
