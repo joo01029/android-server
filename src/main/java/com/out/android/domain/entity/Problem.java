@@ -21,6 +21,6 @@ public class Problem {
 	@Column(nullable = false)
 	private String correctAnswer;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
 }
