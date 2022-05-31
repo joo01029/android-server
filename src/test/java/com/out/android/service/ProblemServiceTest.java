@@ -20,6 +20,7 @@ import org.springframework.security.core.parameters.P;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -69,6 +70,10 @@ public class ProblemServiceTest {
 				.thenReturn(null);
 		Mockito.lenient().when(problemRepo.findAll())
 				.thenReturn(problems);
+		Mockito.lenient().when(problemRepo.findById(1L))
+				.thenReturn(Optional.ofNullable(problem1));
+		Mockito.lenient().when(problemRepo.findById(2L))
+				.thenReturn(Optional.empty());
 	}
 
 	@Test
@@ -87,9 +92,9 @@ public class ProblemServiceTest {
 	}
 
 	@Test
-	public void getProblemTest(){
+	public void getProblemsTest(){
 		try{
-			List<GetProblemsResponse> result = problemService.getProblem();
+			List<GetProblemsResponse> result = problemService.getProblems();
 			assert(result.get(0).getId().equals(1L));
 			assert(result.get(0).getContent().equals("qwer"));
 			assert(result.get(1).getContent().equals("asdf"));
@@ -99,4 +104,26 @@ public class ProblemServiceTest {
 		}
 	}
 
+	@Test
+	public void getProblemSuccessTest(){
+		try{
+			GetProblemsResponse result = problemService.getProblem(1L);
+			assert (result.getId().equals(1L));
+			assert (result.getContent().length() > 0);
+		}catch (Exception e){
+			e.printStackTrace();
+			assert (false);
+		}
+	}
+
+	@Test
+	public void getProblemFailTest(){
+		try{
+			GetProblemsResponse result = problemService.getProblem(2L);
+			assert (false);
+		}catch (Exception e){
+			e.printStackTrace();
+			assert (true);
+		}
+	}
 }

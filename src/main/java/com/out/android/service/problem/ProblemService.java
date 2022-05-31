@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface ProblemService {
 	public void makeProblem(Long userIdx, MakeProblemDto makeProblemDto);
-	List<GetProblemsResponse> getProblem();
+	List<GetProblemsResponse> getProblems();
+	GetProblemsResponse getProblem(Long problemId);
 }

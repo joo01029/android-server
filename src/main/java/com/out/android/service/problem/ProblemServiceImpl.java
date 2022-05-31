@@ -4,8 +4,10 @@ import com.out.android.domain.entity.Problem;
 import com.out.android.domain.entity.User;
 import com.out.android.domain.repo.ProblemRepo;
 import com.out.android.domain.request.problem.MakeProblemDto;
+import com.out.android.exception.CustomException;
 import com.out.android.util.UserUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.out.android.domain.response.problem.GetProblemsResponse;
@@ -37,13 +39,26 @@ public class ProblemServiceImpl implements ProblemService{
 	}
 
 	@Override
-	public List<GetProblemsResponse> getProblem() {
+	public List<GetProblemsResponse> getProblems() {
 		try{
 			return problemRepo.findAll().stream()
 					.map((problem)->
 						modelMapper.map(problem, GetProblemsResponse.class)
 					)
 					.collect(Collectors.toList());
+		}catch (Exception e){
+			throw e;
+		}
+	}
+
+	@Override
+	public GetProblemsResponse getProblem(Long problemId) {
+		try {
+			Problem problem = problemRepo.findById(problemId)
+					.orElseThrow(() -> {
+						throw new CustomException(HttpStatus.NOT_FOUND, "문제를 찾을 수 없습니다.");
+					});
+			return modelMapper.map(problem, GetProblemsResponse.class);
 		}catch (Exception e){
 			throw e;
 		}

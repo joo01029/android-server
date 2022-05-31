@@ -31,7 +31,13 @@ public class ProblemController {
 
 	@GetMapping
 	public ResponseData<List<GetProblemsResponse>> getProblems(){
-		List<GetProblemsResponse> problems = problemService.getProblem();
+		List<GetProblemsResponse> problems = problemService.getProblems();
 		return new ResponseData<>(problems);
+	}
+
+	@GetMapping("/{problemId}")
+	public ResponseData<GetProblemsResponse> getProblem(@PathVariable Long problemId){
+		GetProblemsResponse problem = problemService.getProblem(problemId);
+		return new ResponseData<>(problem);
 	}
 }
