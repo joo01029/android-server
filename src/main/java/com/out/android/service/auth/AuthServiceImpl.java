@@ -44,6 +44,7 @@ public class AuthServiceImpl implements AuthService{
 						new CustomException(HttpStatus.BAD_REQUEST, "아이디나 비밀번호가 다릅니다.")
 				);
 		if (!user.getPassword().equals(loginDto.getPassword())) {
+
 			throw new CustomException(HttpStatus.BAD_REQUEST, "아이디나 비밀번호가 다릅니다.");
 		}
 
