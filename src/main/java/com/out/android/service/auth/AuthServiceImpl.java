@@ -7,6 +7,7 @@ import com.out.android.domain.request.auth.RegisterDto;
 import com.out.android.domain.response.auth.LoginResponse;
 import com.out.android.exception.CustomException;
 import com.out.android.util.JwtProvider;
+import com.out.android.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,12 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService{
-	private final UserRepo userRepo;
+	private final UserUtil userUtil;
 	private final JwtProvider jwtProvider;
 	@Override
 	@Transactional
 	public void register(RegisterDto registerDto) {
-		if(checkUserExist(registerDto.getId()).isPresent()){
+		if(userUtil.checkUserExist(registerDto.getId())){
 			throw new CustomException(HttpStatus.FORBIDDEN, "이미 유저가 존재합니다.");
 		}
 
@@ -34,24 +35,14 @@ public class AuthServiceImpl implements AuthService{
 				.score(0)
 				.build();
 
-		userRepo.save(user);
+		userUtil.saveUser(user);
 	}
 
 	@Override
 	public LoginResponse login(LoginDto loginDto) {
-		User user = checkUserExist(loginDto.getId())
-				.orElseThrow(() ->
-						new CustomException(HttpStatus.BAD_REQUEST, "아이디나 비밀번호가 다릅니다.")
-				);
-		if (!user.getPassword().equals(loginDto.getPassword())) {
-
-			throw new CustomException(HttpStatus.BAD_REQUEST, "아이디나 비밀번호가 다릅니다.");
-		}
+		User user = userUtil.getUserById(loginDto.getId());
+		userUtil.checkUserPassword(user, loginDto.getPassword());
 
 		return new LoginResponse(jwtProvider.encodingToken(user.getIdx()));
-	}
-
-	private Optional<User> checkUserExist(String id){
-		return userRepo.findById(id);
 	}
 }
