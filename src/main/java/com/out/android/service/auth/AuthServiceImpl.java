@@ -39,12 +39,15 @@ public class AuthServiceImpl implements AuthService{
 
 	@Override
 	public LoginResponse login(LoginDto loginDto) {
-		Optional<User> user = checkUserExist(loginDto.getId());
-		if(!user.isPresent() && user.get().getPassword().equals(loginDto.getPassword())){
+		User user = checkUserExist(loginDto.getId())
+				.orElseThrow(()->{
+					throw new CustomException(HttpStatus.BAD_REQUEST, "아이디나 비밀번호가 다릅니다.");
+				});
+		if(user.getPassword().equals(loginDto.getPassword())){
 			throw new CustomException(HttpStatus.BAD_REQUEST, "아이디나 비밀번호가 다릅니다.");
 		}
 
-		return new LoginResponse(jwtProvider.encodingToken(user.get().getIdx()));
+		return new LoginResponse(jwtProvider.encodingToken(user.getIdx()));
 	}
 
 	private Optional<User> checkUserExist(String id){
